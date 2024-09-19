@@ -6,21 +6,26 @@ import (
 	"time"
 
 	"github.com/ilyakaznacheev/cleanenv"
+	_"github.com/joho/godotenv"
 )
 
 type Config struct {
-	Env string `yaml:"env" env-default:"`
-	StoragePath string `yaml:"storage_path" env-required:"true"`
-	Server HTTPServer `yaml:"http_server"`
+	Env         string     `yaml:"env" env-default:"local"`
+	StoragePath string     `yaml:"storage_path" env-required:"true"`
+	Server      HTTPServer `yaml:"http_server"`
 }
 
 type HTTPServer struct {
-	Address string `yaml:"address" env-default:""localhost:8080"`
-	Timeout time.Duration `yaml:"timeout" env-default:"4s"`
+	Address     string        `yaml:"address" env-default:"localhost:8080"`
+	Timeout     time.Duration `yaml:"timeout" env-default:"4s"`
 	IdleTimeout time.Duration `yaml:"idle_timeout" env-default:"60s"`
 }
 
 func MustLoad() *Config {
+
+	// will created small function for read name of ENV and env path
+	os.Setenv("CONFIG_PATH", "C:/Users/roumi/go/src/Prs/url-shortener/1thRestApiPr/config/local.yaml")
+
 	configPath := os.Getenv("CONFIG_PATH")
 	if configPath == "" {
 		log.Fatal("CONFIG_PATH is not set")
