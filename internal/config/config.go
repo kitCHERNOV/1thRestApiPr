@@ -4,9 +4,9 @@ import (
 	"log"
 	"os"
 	"time"
-
+	"github.com/joho/godotenv"
 	"github.com/ilyakaznacheev/cleanenv"
-	_"github.com/joho/godotenv"
+
 )
 
 type Config struct {
@@ -24,7 +24,11 @@ type HTTPServer struct {
 func MustLoad() *Config {
 
 	// will created small function for read name of ENV and env path
-	os.Setenv("CONFIG_PATH", "C:/Users/roumi/go/src/Prs/url-shortener/1thRestApiPr/config/local.yaml")
+	
+	err := godotenv.Load("../1thRestApiPr/local.env")
+	if err != nil {
+		log.Fatalf("Error loading .env file: %s", err)
+	}
 
 	configPath := os.Getenv("CONFIG_PATH")
 	if configPath == "" {
