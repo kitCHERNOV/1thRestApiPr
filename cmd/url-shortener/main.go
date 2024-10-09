@@ -2,6 +2,7 @@ package main
 
 import (
 	"RestApiFP/1thRestApiPr/internal/config"
+	"RestApiFP/1thRestApiPr/internal/http-server/handlers/redirect"
 	"RestApiFP/1thRestApiPr/internal/http-server/handlers/url/save"
 	mwLogger "RestApiFP/1thRestApiPr/internal/http-server/middleware/logger"
 	"RestApiFP/1thRestApiPr/internal/lib/logger/sl"
@@ -72,6 +73,9 @@ func main() {
 	router.Use(middleware.URLFormat)
 
 	router.Post("/url", save.New(log, storage))
+	router.Get("/{alias}", redirect.New(log, storage))
+	// TODO write a delete method
+
 
 	log.Info("staring server", slog.String("address", cfg.Server.Address))
 	
